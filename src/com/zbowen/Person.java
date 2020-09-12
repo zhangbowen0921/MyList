@@ -1,7 +1,6 @@
 package com.zbowen;
 
 public class Person {
-
 	
 	private int age;
 	private String name;
