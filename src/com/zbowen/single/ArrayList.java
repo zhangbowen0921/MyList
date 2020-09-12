@@ -1,4 +1,6 @@
-package com.zbowen;
+package com.zbowen.single;
+
+import com.zbowen.AbstractList;
 
 /**
  * 自己实现 动态数组

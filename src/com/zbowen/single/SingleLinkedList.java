@@ -1,25 +1,23 @@
-package com.zbowen;
+package com.zbowen.single;
 
 import com.zbowen.AbstractList;
 
-public class LinkedList<E> extends AbstractList<E> {
+public class SingleLinkedList<E> extends AbstractList<E> {
 
 	private Node<E> firstNode;
-	private Node<E> lastNode;
-
-	private static class Node<E> {
+	
+	private static class Node<E>{
 		E element;
-		Node<E> pre;
 		Node<E> next;
-
-		public Node(E element, Node<E> pre, Node<E> next) {
+		
+		public Node(E element, Node<E> next) {
 			this.element = element;
-			this.pre = pre;
 			this.next = next;
 		}
-
+		
 	}
-
+	
+	
 	@Override
 	public E get(int index) {
 		Node<E> node = getNode(index);
@@ -37,24 +35,11 @@ public class LinkedList<E> extends AbstractList<E> {
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
-		if (index == size) { // index = 1, size = 1
-			Node<E> oldLast = lastNode;
-			lastNode = new Node<E>(element, lastNode, null);
-			if (oldLast == null) {
-				firstNode = lastNode;
-			} else {
-				oldLast.next = lastNode;
-			}
-		} else {
-			Node<E> next = getNode(index);
-			Node<E> pre = next.pre;
-			Node<E> node = new Node<E>(element, pre, next);
-			next.pre = node;
-			if (pre == null) { // index = 0
-				firstNode = node;
-			} else {
-				pre.next = node;
-			}
+		if (index==0) {
+			firstNode = new Node<E>(element, firstNode);
+		}else {
+			Node<E> pre = getNode(index-1);
+			pre.next = new Node<E>(element, pre.next);
 		}
 		size++;
 	}
@@ -62,38 +47,29 @@ public class LinkedList<E> extends AbstractList<E> {
 	@Override
 	public E remove(int index) {
 		rangeCheck(index);
-
-		Node<E> old = getNode(index);
-		// old.pre.next = old.next;
-		// old.next.pre = old.pre;
-
-		// 考虑old.pre==null 即index==0
-		if (index == 0) {
+		Node<E> node = firstNode;
+		if (index==0) {
 			firstNode = firstNode.next;
-		} else {
-			old.pre.next = old.next;
-		}
-		// 考虑old.next==null 即index==size-1
-		if (old.next == null) { // 减少运算
-			lastNode = lastNode.pre;
-		} else {
-			old.next.pre = old.pre;
+		}else {
+			Node<E> preNode = getNode(index-1);
+			node = preNode.next;
+			preNode.next = node.next;
 		}
 		size--;
-		return old.element;
+		return node.element;
 	}
 
 	@Override
 	public int indexof(E element) {
 		Node<E> node = firstNode;
-		if (element == null) {
+		if (element==null) {
 			for (int i = 0; i < size; i++) {
-				if (node.element == null) {
+				if (node.element==null) {
 					return i;
 				}
 				node = node.next;
 			}
-		} else {
+		}else {
 			for (int i = 0; i < size; i++) {
 				if (element.equals(node.element)) {
 					return i;
@@ -106,27 +82,18 @@ public class LinkedList<E> extends AbstractList<E> {
 	@Override
 	public void clear() {
 		firstNode = null;
-		lastNode = null;
 		size = 0;
 	}
-
+	
 	private Node<E> getNode(int index) {
 		rangeCheck(index);
-		Node<E> node = null;
-		if (index > size / 2) {
-			node = lastNode;
-			for (int i = size - 1; i > index; i--) {
-				node = node.pre;
-			}
-		} else {
-			node = firstNode;
-			for (int i = 0; i < index; i++) {
-				node = node.next;
-			}
+		Node<E> node = firstNode;
+		for (int i = 0; i < index; i++) {
+			node = node.next;
 		}
 		return node;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

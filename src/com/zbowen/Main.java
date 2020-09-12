@@ -1,14 +1,36 @@
 package com.zbowen;
 
+import com.zbowen.single.ArrayList;
+import com.zbowen.single.SingleLinkedList;
+
 public class Main {
 
 	public static void main(String[] args) {
 		//testArrayList();
+		//singleLinkedList();
 		testLinkedList();
 	}
 	
 	public static void testLinkedList() {
 		List<Person> list = new LinkedList<Person>();
+		Person person = new Person(15, "xiaohong");
+		list.add(person);
+		list.add(new Person(12, "jack"));
+		list.add(new Person(18, "Tom"));
+		list.add(new Person(16, "lucy"));
+		list.set(2, new Person(20, "小米"));
+		list.add(3, new Person(24, "华为"));
+		System.out.println(list.remove(0));
+		list.add(0, new Person(28, "腾讯"));
+		System.out.println(list.contains(person));
+		System.out.println(list);
+		list.clear();
+		System.gc();
+	}
+	
+	
+	public static void singleLinkedList() {
+		List<Person> list = new SingleLinkedList<Person>();
 		Person person = new Person(15, "xiaohong");
 		list.add(person);
 		list.add(new Person(12, "jack"));
