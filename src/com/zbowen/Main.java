@@ -1,5 +1,6 @@
 package com.zbowen;
 
+import com.zbowen.circle.SingleCircleLinkedList;
 import com.zbowen.single.ArrayList;
 import com.zbowen.single.SingleLinkedList;
 
@@ -8,7 +9,21 @@ public class Main {
 	public static void main(String[] args) {
 		//testArrayList();
 		//singleLinkedList();
-		testLinkedList();
+		//testLinkedList();
+		testSingleCircleLinkedList();
+		
+	}
+	
+	public static void testSingleCircleLinkedList() {
+		List<Integer> list = new SingleCircleLinkedList<Integer>();
+		list.add(12);
+		list.add(25);
+		list.add(16);
+		list.add(0,5); //[5,12,25,16]
+		list.set(2, 68);//[5,12,68,16]
+		System.out.println(list.remove(0)); //[12,68,16]
+		System.out.println(list);
+		
 	}
 	
 	public static void testLinkedList() {
